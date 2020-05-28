@@ -1,6 +1,12 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
 // Used by VIOSO-Plugin.rc
+#define VWB_Version_MAJ 1
+#define VWB_Version_MIN 1
+#define VWB_Version_MAI 0
+#define VWB_Version_REV 3
+#define VWB_Version_CUR 2020
+#define VWB_Version_DATE "2020/05/28 13:15:34"
 
 // Next default values for new objects
 // 
