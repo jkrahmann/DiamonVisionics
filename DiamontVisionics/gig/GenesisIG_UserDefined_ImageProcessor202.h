@@ -16,15 +16,12 @@
 extern "C"{
 #endif
 
-#define GIG_CREATE_IMAGEPROCESSOR_PLUGIN		"gigCreateImageProcessorPlugin"
-#define GIG_DELETE_IMAGEPROCESSOR_PLUGIN		"gigDeleteImageProcessorPlugin"
-
 /*!
  * This interface defines an image processing plugin
  *   - All render states should be preserved during the draw method.
  *   - If a state is enabled upon entry, it should be disabled upon
  *     exit and vice-versa.
- *   - Subjected to udpates.
+ *   - Subjected to updates.
  */
 class DVC_GenesisIG_API IUserDefinedImageProcessor202 : public IUserDefinedImageProcessor201
 {
@@ -37,8 +34,8 @@ public:
 	virtual ~IUserDefinedImageProcessor202() {}
 
 	/*!
-	 * Method called once per window during the lifetime of the plugin, this happens between the calls to initialize() and initializeGraphics().
-	 * OpenGL functions cannot be called within this function.
+	 * The IG calls this method once per window during the lifetime of the plugin pasing to the plugin the window dimensions.
+	 * this happens between the calls to initialize() and initializeGraphics(). OpenGL functions cannot be called within this function.
 	 *
 	 * @param[in] window
 	 *  The id of the window as defined by the window_definition.xml.
@@ -48,8 +45,8 @@ public:
 	virtual void RegisterWindowSize( int window, int window_dimensions[2] ) {}
 	
 	/*!
-	 * Method called once per view during the lifetime of the plugin, this happens between the calls to initialize() and initializeGraphics().
-	 * OpenGL functions cannot be called within this function.
+	 * The IG calls this method once per view during the lifetime of the plugin passing to the plugin the viewport.
+	 * this happens between the calls to initialize() and initializeGraphics(). OpenGL functions cannot be called within this function.
 	 *
 	 * @param[in] window
 	 *  The id of the window as defined by the window_definition.xml.
@@ -61,7 +58,7 @@ public:
 	virtual void RegisterViewport( int window, int view, int viewport[4] ) {}
 	
 	/*!
-	 * Method called every time the frustum of the specified view changes.
+	 * The IG calls this method every time the frustum of the specified view changes passing to the plugin the updated frustum.
 	 *
 	 * @param[in] window
 	 *  The id of the window.

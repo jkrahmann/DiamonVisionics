@@ -64,8 +64,8 @@ public:
 	virtual ~IUserDefinedImageProcessor200() {}
 
 	/*!
-	 * Method called once during the lifetime of the plugin. Allocate resources needed by the plugin.
-	 * Note: versions 2.4.0.0 and higher of the IG will call this prior to having an openGL context.
+	 * Method called by the IG once during the lifetime of the plugin. Allocate resources needed by the plugin.
+	 * Note: versions 2.4.0.0 and higher of the IG will call this prior to having an OpenGL context.
 	 * If you were calling OpenGL functionality within this function use the initializeGraphics function.
 	 *
 	 * @return
@@ -74,7 +74,7 @@ public:
 	virtual int initialize( const char *config_filename = 0 ) = 0;
 
 	/*!
-	 * Method called once during the lifetime of the plugin after we have an OpenGL context.
+	 * Method called by the IG once during the lifetime of the plugin after creating an OpenGL context.
 	 * OpenGL functions may be called within this function.
 	 *
 	 * @return
@@ -83,12 +83,12 @@ public:
 	virtual int initializeGraphics() = 0;
 
 	/*!
-	 * Method called once during the lifetime of the plugin. Cleanup all resources allocated by the plugin.
+	 * Method called by the IG once during the lifetime of the plugin. Cleanup all resources allocated by the plugin.
 	**/
 	virtual void shutdown() = 0;
 
 	/*!
-	 * Function called once per frame. This should be applied to all windows and views as defined in window_definition.xml
+	 * Function called by the IG once per frame to pass to the plugin the current delta time.
 	 *
 	 * @param[in] frame_delta_time
 	 *  Clock time in seconds between the last frame and the current frame.
@@ -100,7 +100,7 @@ public:
 	virtual void update( float frame_delta_time = 0.0166, void *param = 0, unsigned int buffer_size_in_bytes = 0 ) = 0;
 
 	/*!
-	 * When a window is set to be drawn it will be triggered as active and its extents will be reported.
+	 * The IG will call this function prior to drawing each window passing to the plugin the ID of that window and its extents.
 	 * The draw function should be linked to this active window.
 	 *
 	 * @param[in] window_id
@@ -111,7 +111,7 @@ public:
 	virtual void setActiveWindow( int window_id, int window_extents[2] ) = 0;
 
 	/*!
-	 * When a view is set to be drawn it will be triggered as active and the viewport will be reported.
+	 * The IG will call this function prior to drawing each view passing to the plugin the ID of that view and its viewport.
 	 * The draw function should be linked to this active view.
 	 *
 	 * @param[in] view_id
@@ -142,33 +142,33 @@ public:
 	virtual void postViewProcess() = 0;
 
 	/*!
-	 * If clip planes are to be used and adjusted in the plugin, this function must return true.
+	 * Return true if the plugin will pass to the IG adjusted clip planes to be used for rendering.
 	 *
 	 * @return
-	 *  True if the clip planes are adjusted for the plugin, false if not.
+	 *  True if the plugin will return adjusted clip planes to the IG, false if not.
 	**/
 	virtual bool useClipPlanes() const { return false; }
 
 	/*!
-	 * If the viewport is to be used and adjusted in the plugin, this function must return true.
+	 * Return true if the plugin will pass to the IG an adjusted viewport to be used for rendering.
 	 *
 	 * @return
-	 *  True if the viewport is adjusted for the plugin, false if not.
+	 *  True if the plugin will return an adjusted viewport to the IG, false if not.
 	**/
 	virtual bool useViewport() const { return false; }
 
 	/*!
-	 * If a model view offset or a heading offset is to be used and adjusted in the plugin, this function must return true.
+	 * Return true if the plugin will pass to the IG an adjusted model view offset or a heading offset to be used for rendering.
 	 * The translation applied where the 13th value is rightward, the 14th value is forward, and the 15th value is upward.
 	 *
 	 * @return
-	 *  True if using a model view offset, false if not.
+	 *  True if the plugin will return an adjusted model view offset, false if not.
 	**/
 	virtual bool useModelViewOffsets() const { return false; }
 
 	/*!
-	 * Gets the clip planes currently being used.
-	 * useClipPlanes return true in order for this function to be processed.
+	 * Returns to the IG the clip planes to be used for rendering.
+	 * useClipPlanes must return true in order for this function to be processed.
 	 *
 	 * @param[in,out] frustum_params
 	 *  The coordinates for the clipping frustum.
@@ -176,16 +176,16 @@ public:
 	virtual void getClipPlanes( FrustumParameters& frustum_params ) const { }
 
 	/*!
-	 * Gets the viewport currently being used. Each parameter can be set with a new value to update these clip planes.
+	 * Returns to the IG the viewport to be used for rendering.
 	 * useViewport must return true in order for this function to be processed.
 	 *
-	 * @param[in,out] frustum_params
-	 *  The coordinates for the clipping frustum.
+	 * @param[in,out] viewport
+	 *  The viewport in pixels within the window for the x, y, width, and height respectively.
 	**/
 	virtual void getViewport( int viewport[4] ) const { }
 
 	/*!
-	 * Returns the model view offset matrix if useModelViewOffsets is set to true.
+	 * Returns to the IG the model view offset matrix if useModelViewOffsets is set to true.
 	 *
 	 * @return
 	 *  The model view offset matrix.

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<plugin_configurations>
+  <x64>
+    <plugin_cfg enabled="true" plugin_bin="3D_Overlay.dll" plugin_config_file="plugins/3D_Overlay.xml"/>
+  </x64>
+</plugin_configurations>

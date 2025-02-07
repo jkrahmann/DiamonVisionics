@@ -16,15 +16,12 @@
 extern "C"{
 #endif
 
-#define CREATE_GENESISIG_IMAGEPROCESSOR_PLUGIN		"CreateGenesisIGImageProcessorPlugin"
-#define DELETE_GENESISIG_IMAGEPROCESSOR_PLUGIN		"DeleteGenesisIGImageProcessorPlugin"
-
 /*!
  * This interface defines an image processing plugin
  *  - All render states should be preserved during the draw method.
  *  - If a state is enabled upon entry, it should be disabled upon
  *    exit and vice-versa.
- *  - Subjected to udpates.
+ *  - Subjected to updates.
  */
 class DVC_GenesisIG_API IUserDefinedImageProcessor101 : public IUserDefinedImageProcessor
 {

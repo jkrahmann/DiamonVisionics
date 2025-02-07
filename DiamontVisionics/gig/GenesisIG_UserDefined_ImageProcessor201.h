@@ -15,16 +15,13 @@
 #ifdef __cplusplus
 extern "C"{
 #endif
-	
-#define GIG_CREATE_IMAGEPROCESSOR_PLUGIN		"gigCreateImageProcessorPlugin"
-#define GIG_DELETE_IMAGEPROCESSOR_PLUGIN		"gigDeleteImageProcessorPlugin"
 
 /*!
  * This interface defines an image processing plugin
  *  - All render states should be preserved during the draw method.
  *  - If a state is enabled upon entry, it should be disabled upon
  *    exit and vice-versa.
- *  - Subjected to udpates.
+ *  - Subjected to updates.
  */
 class DVC_GenesisIG_API IUserDefinedImageProcessor201 : public IUserDefinedImageProcessor200
 {

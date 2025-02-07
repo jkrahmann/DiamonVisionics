@@ -51,26 +51,26 @@ public:
 	virtual ~IUserDefinedPacketProcessor() {}
 
 	/*!
-	 * Method called once during the lifetime of the plugin. Allocate all resources needed by the plugin.
+	 * Method the IG will call once during the lifetime of the plugin. The implementation needs to allocate all resources needed by the plugin.
 	 *
 	 * @return 
-	 *  Value <= 0 indicates failure, value >= 1 indicates success.
+	 *  Value <= 0 indicates a plugin initialization failure, value >= 1 indicates success.
 	**/
 	virtual int initialize(const char *config_filename = 0) = 0;
 
 	/*!
-	 * Method called once during the lifetime of the plugin. Cleanup all resources allocated by the plugin.
+	 * Method the IG will call once during the lifetime of the plugin. The implementation needs to cleanup all resources allocated by the plugin.
 	**/
 	virtual void shutdown() = 0;
 
 	/*!
-	 * Queries for the number of event processors that the plugin needs to register.
+	 * The IG calls this function to query the plugin for the number of event processors that the plugin needs to register.
 	 * @return The number of event processors.
 	**/
 	virtual unsigned int GetProcessorCount() = 0;
 
 	/*!
-	 * Queries for the CigiBaseEventProcessor and packet id that is associate with given index.
+	 * The IG calls this function to query for the CigiBaseEventProcessor and packet id that is associate with given index.
 	 * @param in index: The index being queried.
 	 * @param inout packet_id: The packet id that the returned event processor is meant to process.
 	 * @return the CigiBaseEventProcessor that will process packets of type packet_id.

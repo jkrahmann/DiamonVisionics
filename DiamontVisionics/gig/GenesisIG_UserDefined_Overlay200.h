@@ -39,8 +39,8 @@ public:
 	virtual ~IUserDefinedOverlay200() {}
 
 	/*!
-	 * Method called once during the lifetime of the plugin. Allocate resources needed by the plugin.
-	 * Note: versions 2.4.0.0 and higher of the IG will call this prior to having an openGL context.
+	 * Method called by the IG once during the lifetime of the plugin. Allocate resources needed by the plugin.
+	 * Note: versions 2.4.0.0 and higher of the IG will call this prior to having an OpenGL context.
 	 * If you were calling OpenGL functionality within this function use the initializeGraphics function.
 	 *
 	 * @return
@@ -49,7 +49,7 @@ public:
 	virtual int initialize( const char *config_filename = 0 ) = 0;
 
 	/*!
-	 * Method called once during the lifetime of the plugin after we have an OpenGL context.
+	 * Method called by the IG once during the lifetime of the plugin after creating an OpenGL context.
 	 * OpenGL functions may be called within this function.
 	 *
 	 * @return
@@ -58,12 +58,12 @@ public:
 	virtual int initializeGraphics() = 0;
 
 	/*!
-	 * Method called once during the lifetime of the plugin. Cleanup all resources allocated by the plugin.
+	 * Method called by the IG once during the lifetime of the plugin. Cleanup all resources allocated by the plugin.
 	**/
 	virtual void shutdown() = 0;
 
 	/*!
-	 * Funcation called once per frame. This should be applied to all windows and views as defined in window_definition.xml
+	 * Function called by the IG once per frame to pass to the plugin the current delta time.
 	 *
 	 * @param[in] frame_delta_time
 	 *  Clock time in seconds between the last frame and the current frame.
@@ -75,7 +75,7 @@ public:
 	virtual void update( float frame_delta_time = 0.0166, void *param = 0, unsigned int buffer_size_in_bytes = 0 ) = 0;
 
 	/*!
-	 * When a window is set to be drawn it will be triggered as active and its extents will be reported.
+	 * The IG will call this function prior to drawing each window passing to the plugin the ID of that window and its extents.
 	 * The draw function should be linked to this active window.
 	 *
 	 * @param[in] window_id
@@ -86,7 +86,7 @@ public:
 	virtual void setActiveWindow( int window_id, int window_extents[2] ) = 0;
 
 	/*!
-	 * When a view is set to be drawn it will be triggered as active and the viewport will be reported.
+	 * The IG will call this function prior to drawing each view passing to the plugin the ID of that view and its viewport.
 	 * The draw function should be linked to this active view.
 	 * @param[in] view_id
 	 *  The view identifier (matches what is set inside window_definitions.xml)
@@ -96,14 +96,14 @@ public:
 	virtual void setActiveView( int view_id, int viewport[4] ) = 0;
 
 	/*
-	 * Do any drawing (prior to IUserDefinedImageProcessor post processing)
+	 * The plugin should do any per-view drawing in this function. This will be called prior to any IUserDefinedImageProcessor post processing.
 	 * This should be for the active window and active view within that window.
 	*/
 	virtual void draw() = 0;
 
 	/*
-	 * Do any post frame drawing (This happens after IUserDefinedImageProcessor post processing)
-	 * This should be for the active window and active view within that window.
+	 * The plugin should do any per-window drawing in this function. This will be called after IUserDefinedImageProcessor post processing.
+	 * This should be for the active window.
 	*/
 	virtual void PostFrameDraw() = 0;
 

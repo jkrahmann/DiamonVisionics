@@ -9,7 +9,7 @@
 #include <iostream>
 
 #define VIOSOWARPBLEND_DYNAMIC_IMPLEMENT
-#include  "VIOSO_API/Include/VIOSOWarpBlend.h"
+#include "../../vioso_api/Include/VIOSOWarpBlend.h"
 
 // Using Namespaces
 

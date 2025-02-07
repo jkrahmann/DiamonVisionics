@@ -61,22 +61,22 @@ public:
 	virtual ~IUserDefinedOverlay() {}
 
 	/*!
-	 * Method called once during the lifetime of the plugin. Allocate resources needed by the plugin.
-	 * Note: versions 2.4.0.0 and higher of the IG will call this prior to having an openGL context.
+	 * Method the IG will call once during the lifetime of the plugin. The implementation needs to allocate all resources needed by the plugin.
+	 * Note: versions 2.4.0.0 and higher of the IG will call this prior to having an OpenGL context.
 	 * If you were calling OpenGL functionality within this function use the initializeGraphics function.
 	 *
 	 * @return 
-	 *  Value <= 0 indicates failure, value >= 1 indicates sucess.
+	 *  Value <= 0 indicates a plugin initialization failure, value >= 1 indicates success.
 	**/
 	virtual int initialize(const char *config_filename = 0) = 0;
 
 	/*!
-	 * Method called once during the lifetime of the plugin. Cleanup all resources allocated by the plugin.
+	 * Method the IG will call once during the lifetime of the plugin. The implementation needs to cleanup all resources allocated by the plugin.
 	**/
 	virtual void shutdown() = 0;
 
 	/*!
-	 * Funcation called once per frame. This should be applied to all windows and views as defined in window_definition.xml
+	 * Function called by the IG once per frame to pass to the plugin the current delta time.
 	 *  
 	 * @param[in] frame_delta_time
 	 *  Clock time in seconds between the last frame and the current frame.
@@ -88,7 +88,7 @@ public:
 	virtual void update(float frame_delta_time = 0.0166, void *param = 0, unsigned int buffer_size_in_bytes = 0) = 0;
 
 	/*!
-	 * Process alphanumeric keyboard information passed to the plugin. Must return true if information is processed.
+	 * Process alphanumeric keyboard information passed to the plugin. Must return true if information is processed to prevent further processing by the IG.
 	 *
 	 * @param[in] c
 	 *  Key pressed represented by the actual alphanumeric symbol for the key ('W', 'A', 'S', 'D').
@@ -103,7 +103,7 @@ public:
 	virtual bool processKey( unsigned char c, int x, int y ) = 0;
 
 	/*!
-	 * Process non-alphanumeric keyboard information passed to the plugin. Must return true if information is processed.
+	 * Process non-alphanumeric keyboard information passed to the plugin. Must return true if information is processed to prevent further processing by the IG.
 	 *
 	 * @param[in] c
 	 *  Key pressed represented by the keycode for the key.
@@ -118,7 +118,7 @@ public:
 	virtual bool processSpecialKey( unsigned int c, int x, int y ) = 0;
 
 	/*!
-	 * Process mouse information passed to the plugin. Must return true if information is processed.
+	 * Process mouse information passed to the plugin. Must return true if information is processed to prevent further processing by the IG.
 	 * 
 	 * @param[in] button
 	 *  Button press represented as an int, 0 indicates left button, 1 indicates middle, 2 indicates 3.
@@ -134,7 +134,7 @@ public:
 	virtual bool processMouse( int button, bool state, int x, int y, int modifiers ) = 0;
 
 	/*!
-	 * Process mouse motion information passed to the plugin. Must return true if information is processed.
+	 * Process mouse motion information passed to the plugin. Must return true if information is processed to prevent further processing by the IG.
 	 * Mouse motion information is sent to the plugin when the mouse is clicked and dragged.
 	 *
 	 * @param[in] x 
@@ -148,7 +148,7 @@ public:
 	virtual bool processMouseMotion( int x, int y ) = 0;
 
 	/*!
-	 * Process passive mouse motion information passed to the plugin. Must return true if information is processed.
+	 * Process passive mouse motion information passed to the plugin. Must return true if information is processed to prevent further processing by the IG.
 	 * Passive mouse motion is always sent to the plugin whenever the mouse moves, regardless of a button press.
 	 *
 	 * @param[in] x 
@@ -177,10 +177,10 @@ public:
 	 * @return 
 	 *  True if update was successful, false otherwise.
 	**/
-	virtual bool updateComponent( int component_id,bool component_state,void *data,int data_size) = 0;
+	virtual bool updateComponent( int component_id, bool component_state, void *data, int data_size ) = 0;
 
 	/*!
-	 * When a window is set to be drawn it will be triggered as active and its extents will be reported.
+	 * The IG will call this function prior to drawing each window passing to the plugin the ID of that window and its extents.
 	 * The draw function should be linked to this active window.
 	 * 
 	 * @param[in] window_id
@@ -191,7 +191,7 @@ public:
 	virtual void setActiveWindow( int window_id, int window_extents[2] ) = 0;
 
 	/*!
-	 * When a view is set to be drawn it will be triggered as active and the viewport will be reported.
+	 * The IG will call this function prior to drawing each view passing to the plugin the ID of that view and its viewport.
 	 * The draw function should be linked to this active view.
 	 * @param[in] view_id
 	 *  The view identifier (matches what is set inside window_definitions.xml)
@@ -201,9 +201,9 @@ public:
 	virtual void setActiveView( int view_id, int viewport[4] ) = 0;
 
 	/*
-	 * Do any drawing (prior to IUserDefinedImageProcessor post processing)
+	 * The plugin should do any drawing in this function. This will be called prior to any IUserDefinedImageProcessor post processing.
 	 * This should be for the active window and active view within that window.
-	*/
+	**/
 	virtual void draw( bool on ) = 0;
 
 };

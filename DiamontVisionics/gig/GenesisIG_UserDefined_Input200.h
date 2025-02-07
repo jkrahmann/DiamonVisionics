@@ -92,7 +92,7 @@ extern "C"{
 		virtual ~IUserDefinedInput200() {}
 
 		/*!
-		* Process alphanumeric keyboard information passed to the plugin. Must return true if information is processed.
+		* Process alphanumeric keyboard information passed to the plugin. Must return true if information is processed to prevent further processing by the IG.
 		*
 		* @param[in] c
 		*  Key pressed represented by the actual alphanumeric symbol for the key ('W', 'A', 'S', 'D').
@@ -109,7 +109,7 @@ extern "C"{
 		virtual bool processKey( unsigned char c, int x, int y, int modifiers ) = 0;
 
 		/*!
-		* Process non-alphanumeric keyboard information passed to the plugin. Must return true if information is processed.
+		* Process non-alphanumeric keyboard information passed to the plugin. Must return true if information is processed to prevent further processing by the IG.
 		*
 		* @param[in] c
 		*  Key pressed represented by the keycode for the key.
@@ -126,7 +126,7 @@ extern "C"{
 		virtual bool processSpecialKey( unsigned int c, int x, int y, int modifiers ) = 0;
 
 		/*!
-		* Process mouse information passed to the plugin. Must return true if information is processed.
+		* Process mouse information passed to the plugin. Must return true if information is processed to prevent further processing by the IG.
 		*
 		* @param[in] button
 		*  Button press represented as an int, 0 indicates left button, 1 indicates middle, 2 indicates right.
@@ -145,7 +145,7 @@ extern "C"{
 		virtual bool processMouse( int button, bool state, int x, int y, int modifiers ) = 0;
 
 		/*!
-		* Process mouse motion information passed to the plugin. Must return true if information is processed.
+		* Process mouse motion information passed to the plugin. Must return true if information is processed to prevent further processing by the IG.
 		* Mouse motion information is sent to the plugin when the mouse is clicked and dragged.
 		*
 		* @param[in] x
@@ -161,7 +161,7 @@ extern "C"{
 		virtual bool processMouseMotion( int x, int y, int modifiers ) = 0;
 
 		/*!
-		* Process passive mouse motion information passed to the plugin. Must return true if information is processed.
+		* Process passive mouse motion information passed to the plugin. Must return true if information is processed to prevent further processing by the IG.
 		* Passive mouse motion is always sent to the plugin whenever the mouse moves, regardless of a button press.
 		*
 		* @param[in] x

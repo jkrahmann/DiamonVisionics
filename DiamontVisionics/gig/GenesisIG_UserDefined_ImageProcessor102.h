@@ -16,15 +16,12 @@
 extern "C"{
 #endif
 
-#define CREATE_GENESISIG_IMAGEPROCESSOR_PLUGIN		"CreateGenesisIGImageProcessorPlugin"
-#define DELETE_GENESISIG_IMAGEPROCESSOR_PLUGIN		"DeleteGenesisIGImageProcessorPlugin"
-
 /*!
  * This interface defines an image processing plugin
  *  - All render states should be preserved during the draw method.
  *  - If a state is enabled upon entry, it should be disabled upon
  *    exit and vice-versa.
- *  - Subjected to udpates.
+ *  - Subjected to updates.
  */
 class DVC_GenesisIG_API IUserDefinedImageProcessor102 : public IUserDefinedImageProcessor101
 {
@@ -43,13 +40,18 @@ public:
 	virtual ~IUserDefinedImageProcessor102() {}
 	
 	/*!
-	 * Get the heading pitch roll from the plugin
-	 *
+	 * The IG calls this function to get the heading pitch roll from the plugin
 	**/
 	virtual void GetHPR( double &heading, double& pitch, double& roll ) = 0;
-
+	
+	/*!
+	 * The IG calls this function to get the clipping planes from the plugin
+	**/
 	virtual void getClipPlanesd( double& left, double& right, double& top, double& bottom, float& nearPlane, float& farPlane, bool& overrideNearFar ) = 0;
-
+	
+	/*!
+	 * The IG calls this function to get the model view offset matrix from the plugin
+	**/
 	virtual const double* getModelViewOffsetsd() const = 0;
 };
 

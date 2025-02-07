@@ -56,7 +56,7 @@ public:
 	virtual ~IUserDefinedNetworkAdapter() {}
 
 	/*!
-	 * Method called once during the lifetime of the plugin. Allocate all resources needed by the plugin.
+	 * Method called by the IG once during the lifetime of the plugin. Allocate resources needed by the plugin.
 	 *
 	 * @return 
 	 *  Value <= 0 indicates failure, value >= 1 indicates sucess.
@@ -64,12 +64,12 @@ public:
 	virtual int initialize(const char *config_filename = 0) = 0;
 
 	/*!
-	 * Method called once during the lifetime of the plugin. Cleanup all resources allocated by the plugin.
+	 * Method called by the IG once during the lifetime of the plugin. Cleanup all resources allocated by the plugin.
 	**/
 	virtual void shutdown() = 0;
 
 	/*!
-	 * Funcation called once per frame. This should be applied to all windows and views as defined in window_definition.xml
+	 * Function called by the IG once per frame to pass to the plugin the current delta time.
 	 *  
 	 * @param[in] frame_delta_time
 	 *  Clock time in seconds between the last frame and the current frame.
@@ -81,7 +81,7 @@ public:
 	virtual void update(float frame_delta_time = 0.0166, void *param = 0, unsigned int buffer_size_in_bytes = 0) = 0;
 
 	/*!
-	 * Process alphanumeric keyboard information passed to the plugin. Must return true if information is processed.
+	 * Process alphanumeric keyboard information passed to the plugin. Must return true if information is processed to prevent further processing by the IG.
 	 *
 	 * @param[in] c
 	 *  Key pressed represented by the actual alphanumeric symbol for the key ('W', 'A', 'S', 'D').
@@ -96,7 +96,7 @@ public:
 	virtual bool processKey( unsigned char c, int x, int y ) = 0;
 
 	/*!
-	 * Process non-alphanumeric keyboard information passed to the plugin. Must return true if information is processed.
+	 * Process non-alphanumeric keyboard information passed to the plugin. Must return true if information is processed to prevent further processing by the IG.
 	 *
 	 * @param[in] c
 	 *  Key pressed represented by the keycode for the key.
@@ -111,7 +111,7 @@ public:
 	virtual bool processSpecialKey( unsigned int c, int x, int y ) = 0;
 
 	/*!
-	 * Process mouse information passed to the plugin. Must return true if information is processed.
+	 * Process mouse information passed to the plugin. Must return true if information is processed to prevent further processing by the IG.
 	 * 
 	 * @param[in] button
 	 *  Button press represented as an int, 0 indicates left button, 1 indicates middle, 2 indicates 3.
@@ -127,7 +127,7 @@ public:
 	virtual bool processMouse( int button, bool state, int x, int y, int modifiers ) = 0;
 
 	/*!
-	 * Process mouse motion information passed to the plugin. Must return true if information is processed.
+	 * Process mouse motion information passed to the plugin. Must return true if information is processed to prevent further processing by the IG.
 	 * Mouse motion information is sent to the plugin when the mouse is clicked and dragged.
 	 *
 	 * @param[in] x 
@@ -141,7 +141,7 @@ public:
 	virtual bool processMouseMotion( int x, int y ) = 0;
 
 	/*!
-	 * Process passive mouse motion information passed to the plugin. Must return true if information is processed.
+	 * Process passive mouse motion information passed to the plugin. Must return true if information is processed to prevent further processing by the IG.
 	 * Passive mouse motion is always sent to the plugin whenever the mouse moves, regardless of a button press.
 	 *
 	 * @param[in] x 
@@ -156,7 +156,7 @@ public:
 
 	
 	/*!
-	 * HandleMessages is when processing of incoming packets should occur.
+	 * HandleMessages is called by the IG when the plugin should process incoming packets.
 	 * This is also when packets that need to be sent to the IG should be sent as well ( via network ).
 	 * Currently this should be CIGI messages since network adapters should be translating
 	 * legacy message protocols to the IG's expected CIGI protocol.
@@ -165,16 +165,16 @@ public:
 	virtual void HandleMessages() = 0;
 
 	/*!
-	 * If a message recieved by the plugin and the main host needs to be notified
-	 * set state to a positive value ( typically 1 ) and set value to some arbitrary event id.
-	 * Currently this is sent to a CIGI host via an EventNotification.
+	 * Function called by the IG to query if the plugin needs to notify the host, to send a message the plugin
+	 * will implement this function to set state to a positive value ( typically 1 ) and set value to some arbitrary event id.
+	 * The IG will then send the value to a CIGI host via an EventNotification packet.
 	**/
 	virtual void GetMessageState( int * value , int * state ) = 0;
 
 	/*!
-	 * This allows for a dirrect pass of the message buffer to the IG. It would be the same buffer passed 
-	 * via the network when using the CIGI protocol except without the network latency.
-	 * This limits communication to a single IG.
+	 * GetMessageBuffer is called by the IG to query the plugin for a CIGI message buffer that bypasses networking.
+	 * The buffer returned by the plugin should be the same buffer that would be passed via the network when using the 
+	 * CIGI protocol except without the network latency. This limits communication to a single IG.
 	 *
 	 * @param[out] interface_id 
 	 *  The interface to post messages on. This is typically 0 to be able to use a cigi host

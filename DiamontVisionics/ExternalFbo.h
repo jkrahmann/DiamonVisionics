@@ -12,11 +12,12 @@
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 #include <Windows.h>
 #include "gig/GenesisIG_UserDefined_ImageProcessor200.h"
-#include "glew-2.1.0/include/GL/glew.h"
+#define GLEW_STATIC
+#include "GL/glew.h"
 #include <gl/GL.h>
 
 #define VIOSOWARPBLEND_DYNAMIC_DEFINE
-#include "VIOSO_API/Include/VIOSOWarpBlend.h"
+#include "../../vioso_api/Include/VIOSOWarpBlend.h"
 
 
 class ExternalFbo

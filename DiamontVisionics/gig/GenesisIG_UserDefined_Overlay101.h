@@ -16,9 +16,6 @@
 extern "C"{
 #endif
 
-#define CREATE_GENESISIG_OVERLAY_PLUGIN				"CreateGenesisIGOverlayPlugin"
-#define DELETE_GENESISIG_OVERLAY_PLUGIN				"DeleteGenesisIGOverlayPlugin"
-
 /********************************************************************
  * This interface defines a user defined overlay.                   *
  * NOTES:													        *
@@ -26,7 +23,7 @@ extern "C"{
  * (2) All render states should be preserved during the draw method.*
  *     If a state is enable upon entry, it should be disable upon   *
  *     exit and vice-versa.                                         *
- * -Subjected to udpates.                                           *
+ * -Subjected to updates.                                           *
  ********************************************************************/
 class DVC_GenesisIG_API IUserDefinedOverlay101 : public IUserDefinedOverlay
 {
@@ -45,8 +42,8 @@ public:
 	virtual ~IUserDefinedOverlay101() {}
 	
 	/*
-	 * Do any post frame drawing (This happens after IUserDefinedImageProcessor post processing)
-	 * This should be for the active window and active view within that window.
+	 * The plugin should do any per-window drawing in this function. This will be called after IUserDefinedImageProcessor post processing.
+	 * This should be for the active window.
 	*/
 	virtual void PostFrameDraw() = 0;
 

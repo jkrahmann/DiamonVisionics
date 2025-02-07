@@ -16,9 +16,6 @@
 extern "C"{
 #endif
 
-#define GIG_CREATE_OVERLAY_PLUGIN				"gigCreateOverlayPlugin"
-#define GIG_DELETE_OVERLAY_PLUGIN				"gigDeleteOverlayPlugin"
-
 /********************************************************************
  * This interface defines a user defined overlay.                   *
  * NOTES:													        *
@@ -26,7 +23,7 @@ extern "C"{
  * (2) All render states should be preserved during the draw method.*
  *     If a state is enable upon entry, it should be disable upon   *
  *     exit and vice-versa.                                         *
- * -Subjected to udpates.                                           *
+ * -Subjected to updates.                                           *
  ********************************************************************/
 class DVC_GenesisIG_API IUserDefinedOverlay201 : public IUserDefinedOverlay200
 {
@@ -38,7 +35,7 @@ public:
 	virtual ~IUserDefinedOverlay201() {}
 
 	/*
-	 * Do any post window drawing (This happens before IUserDefinedImageProcessor post processing)
+	 * The plugin should do any post window drawing that needs to happen before IUserDefinedImageProcessor post processing in this function.
 	 * This should be for the active window and active view within that window.
 	*/
 	virtual void PostWindowDraw() = 0;
